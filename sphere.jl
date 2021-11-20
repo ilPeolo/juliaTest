@@ -9,17 +9,25 @@ mutable struct mysurface
     y::Array{Float64}
     z::Array{Float64}
 end
-function mysurface(a::Vector{Float64},b::Vector{Float64},fx,fy,fz)
+function mysurface(a::Vector{Float64},b::Vector{Float64},fx::function(),fy::function(),fz::function())
     mysurface(a,b,fx(a,b),fy(a,b),fz(a,b))
 end
+
+fx(u,v) = cos.(u) * sin.(v)';
+fy(u,v) = sin.(u) * sin.(v)';
+fz(u,v) = ones(n) * cos.(v)';
+
+n=300;
 u = range(0,stop=2*π,length=n);
 v = range(0,stop=π,length=n);
 
-x = cos.(u) * sin.(v)';
-y = sin.(u) * sin.(v)';
-z = ones(n) * cos.(v)';
+mysurface(u,v,fx,fy,fz);
+
+
 
 
 # The rstride and cstride arguments default to 10
 #surf(x,y,z, rstride=4, cstride=4)
 #display(gcf())
+
+return(0)
