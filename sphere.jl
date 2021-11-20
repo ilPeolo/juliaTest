@@ -45,15 +45,24 @@ mutable struct funzSuSup
     funz::Function
     val::Matrix{Float64}
 end
-function funzSuSup(Spass::mysurface,f::Function)
-    S=Spass
-    funz=f
-    val=f(S.u,S.v)
+function funzSuSup(S::mysurface,f::Function)
+    funzSuSup(S,f,f(S.u,S.v))
 end
-
-function funztest(u::Vector{Float64},v::Vector{Float64}):Array{Float64}
-    return map(a -> maximum([a,0]), u*v')
+function funztest(u::Vector{Float64},v::Vector{Float64})
+    return u*v'
+end
+function graph(self::funzSuSup)
+    norm=0.5 * self.val ./ (maximum(abs.(self.val)))
+    newx=self.S.x .* (norm .k+1)
+    newy=self.S.y .* (norm .+1)
+    newz=self.S.z .* (norm .+1)
+    surf(newx,newy,newz, rstride=4, cstride=4)
+    display(gcf())
 end
 
 nuovfunz=funzSuSup(sfera,funztest)
+
+graph(nuovfunz)
+
+return(0)
 
