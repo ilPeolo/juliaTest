@@ -1,5 +1,5 @@
 ##toro
-n=300
+n=400
 u = collect(range(0,stop=2*π,length=n));
 v = collect(range(0,stop=2*π,length=n));
 R=1.3
